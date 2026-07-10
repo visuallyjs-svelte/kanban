@@ -2,28 +2,20 @@
     import { Node, Group, type Base } from "@visuallyjs/browser-ui";
     import { InspectorComponent } from "@visuallyjs/browser-ui-svelte";
 
-    let currentType = $state('')
-
-    const renderEmptyContainer = () => {
-        currentType = '';
-    };
-
-    const refresh = (obj: Base) => {
-        currentType = obj.objectType;
-    };
+    let current = $state(null)
 </script>
 
-<InspectorComponent refresh={refresh} renderEmptyContainer={renderEmptyContainer}>
-    {#if currentType === ''}
+<InspectorComponent bind:current={current}>
+    {#if current?.objectType === null}
         <div></div>
-    {:else if currentType === Node.objectType}
+    {:else if current?.objectType === Node.objectType}
         <div class="vjs-kanban-inspector">
             <strong>Label</strong>
             <input vjs-att="name" type="text"/>
             <strong>Description</strong>
             <textarea vjs-att="description" rows="10"></textarea>
         </div>
-    {:else if currentType === Group.objectType}
+    {:else if current?.objectType === Group.objectType}
         <div class="vjs-kanban-inspector">
             <strong>Title</strong>
             <input vjs-att="title" type="text"/>
